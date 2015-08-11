@@ -1,17 +1,38 @@
 require "rails_helper"
 
-describe AnalyticsHelper, "#analytics?" do
-  it 'is true when ENV["SEGMENT_KEY"] is present' do
-    ENV["SEGMENT_KEY"] = "anything"
+describe AnalyticsHelper do
+  describe "#analytics?" do
+    context "when SEGMENT_KEY is present" do
+      it "returns true" do
+        allow(ENV).to receive(:[]).with("SEGMENT_KEY").and_return("anything")
 
-    expect(analytics?).to be_truthy
+        expect(analytics?).to eq true
+      end
+    end
 
-    ENV["SEGMENT_KEY"] = nil
-  end
+    context "when SEGMENT_KEY is not present" do
+      it "returns false" do
+        allow(ENV).to receive(:[]).with("SEGMENT_KEY").and_return(nil)
 
-  it 'is false when ENV["SEGMENT_KEY"] is not present' do
-    ENV["SEGMENT_KEY"] = nil
+        expect(analytics?).to eq false
+      end
+    end
 
-    expect(analytics?).to be_falsy
+    describe "#identify_hash" do
+      it "includes user data" do
+        user = create(:user)
+        repo = create(:repo, :active, users: [user])
+
+        identify_hash = identify_hash(user)
+
+        expect(identify_hash).to eq(
+          created: user.created_at,
+          email: user.email_address,
+          username: user.github_username,
+          user_id: user.id,
+          active_repo_ids: [repo.id],
+        )
+      end
+    end
   end
 end

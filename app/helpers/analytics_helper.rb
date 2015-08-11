@@ -1,6 +1,6 @@
 module AnalyticsHelper
   def analytics?
-    ENV["SEGMENT_KEY"]
+    ENV["SEGMENT_KEY"].present?
   end
 
   def identify_hash(user = current_user)
@@ -9,6 +9,7 @@ module AnalyticsHelper
       email: user.email_address,
       username: user.github_username,
       user_id: user.id,
+      active_repo_ids: user.active_repos.ids,
     }
   end
 
