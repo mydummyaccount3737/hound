@@ -1,6 +1,7 @@
 module StyleGuide
   class Go < Base
     LANGUAGE = "go"
+    JOB_CLASS = GoReviewJob
 
     def file_included?(commit_file)
       !vendored?(commit_file.filename)

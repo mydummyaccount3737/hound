@@ -35,28 +35,7 @@ class StyleChecker
   end
 
   def style_guide_class(filename)
-    case filename
-    when /.+\.rb\z/
-      StyleGuide::Ruby
-    when /.+\.coffee(\.js)?(\.erb)?\z/
-      StyleGuide::CoffeeScript
-    when /.+\.js\z/
-      StyleGuide::JavaScript
-    when /.+\.haml\z/
-      StyleGuide::Haml
-    when /.+\.scss\z/
-      StyleGuide::Scss
-    when /.+\.go\z/
-      StyleGuide::Go
-    when /.+\.py\z/
-      StyleGuide::Python
-    when /.+\.swift\z/
-      StyleGuide::Swift
-    when /.+(?:\.md|\.markdown)\z/
-      StyleGuide::Markdown
-    else
-      StyleGuide::Unsupported
-    end
+    StyleGuide.for(filename)
   end
 
   def config

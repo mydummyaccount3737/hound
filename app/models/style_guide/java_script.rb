@@ -15,7 +15,7 @@ module StyleGuide
     end
 
     def file_included?(commit_file)
-      !excluded_files.any? do |pattern|
+      excluded_files.none? do |pattern|
         File.fnmatch?(pattern, commit_file.filename)
       end
     end
@@ -42,7 +42,7 @@ module StyleGuide
     def default_config_file
       DefaultConfigFile.new(
         DEFAULT_CONFIG_FILENAME,
-        repository_owner_name
+        repository_owner_name,
       ).path
     end
 

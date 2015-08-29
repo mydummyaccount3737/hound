@@ -40,7 +40,7 @@ describe StyleGuide::JavaScript do
 
           violations = violations_in(
             commit_file: commit_file,
-            repo_config: repo_config
+            repo_config: repo_config,
           )
 
           expect(violations).to be_empty
@@ -66,7 +66,7 @@ describe StyleGuide::JavaScript do
 
         violations = violations_in(
           commit_file: commit_file,
-          repo_config: repo_config
+          repo_config: repo_config,
         )
 
         expect(violations).to be_empty
@@ -78,13 +78,13 @@ describe StyleGuide::JavaScript do
         spy_on_file_read
         spy_on_jshintrb
         configuration_file_path = default_configuration_file(
-          StyleGuide::JavaScript
+          StyleGuide::JavaScript,
         )
         commit_file = build_js_file("$(myGlobal).hide();")
 
         violations_in(
           commit_file: commit_file,
-          repository_owner_name: "not_thoughtbot"
+          repository_owner_name: "not_thoughtbot",
         )
 
         expect(File).to have_received(:read).with(configuration_file_path)
@@ -99,12 +99,12 @@ describe StyleGuide::JavaScript do
         spy_on_jshintrb
         commit_file = build_js_file("$(myGlobal).hide();")
         configuration_file_path = thoughtbot_configuration_file(
-          StyleGuide::JavaScript
+          StyleGuide::JavaScript,
         )
 
         violations_in(
           commit_file: commit_file,
-          repository_owner_name: "thoughtbot"
+          repository_owner_name: "thoughtbot",
         )
 
         expect(File).to have_received(:read).with(configuration_file_path)
@@ -120,7 +120,7 @@ describe StyleGuide::JavaScript do
 
         violations = violations_in(
           commit_file: commit_file,
-          repo_config: repo_config
+          repo_config: repo_config,
         )
 
         violation = violations.first
@@ -163,16 +163,16 @@ describe StyleGuide::JavaScript do
         ignored_javascript_files: [
           "app/assets/javascripts/*.js",
           "vendor/*",
-        ]
+        ],
       )
       style_guide = build_style_guide(repo_config: repo_config)
       commit_file1 = double(
         "CommitFile",
-        filename: "app/assets/javascripts/bar.js"
+        filename: "app/assets/javascripts/bar.js",
       )
       commit_file2 = double(
         "CommitFile",
-        filename: "vendor/assets/javascripts/foo.js"
+        filename: "vendor/assets/javascripts/foo.js",
       )
 
       expect(style_guide.file_included?(commit_file1)).to be false
@@ -200,7 +200,7 @@ describe StyleGuide::JavaScript do
     repo_config: default_repo_config,
     repository_owner_name: "not_thoughtbot"
   )
-    style_guide = StyleGuide::JavaScript.new(
+    StyleGuide::JavaScript.new(
       repo_config: repo_config,
       build: build(:build),
       repository_owner_name: repository_owner_name,
@@ -212,13 +212,17 @@ describe StyleGuide::JavaScript do
   end
 
   def default_configuration
-    config_file_path = default_configuration_file(StyleGuide::JavaScript)
+    config_file_path = thoughtbot_configuration_file(
+      StyleGuide::JavaScript,
+    )
     config_file = File.read(config_file_path)
     JSON.parse(config_file)
   end
 
   def thoughtbot_configuration
-    config_file_path = thoughtbot_configuration_file(StyleGuide::JavaScript)
+    config_file_path = thoughtbot_configuration_file(
+      StyleGuide::JavaScript,
+    )
     config_file = File.read(config_file_path)
     JSON.parse(config_file)
   end
