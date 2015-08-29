@@ -1,6 +1,32 @@
 require "rails_helper"
 
-describe StyleGuide::Markdown do
+describe Linter::Markdown do
+  describe ".lint?" do
+    context "given a .md file" do
+      it "returns true" do
+        result = Linter::Markdown.lint?("foo.md")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a .markdown file" do
+      it "returns true" do
+        result = Linter::Markdown.lint?("foo.markdown")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a non-markdown file" do
+      it "returns true" do
+        result = Linter::Markdown.lint?("foo.txt")
+
+        expect(result).to eq false
+      end
+    end
+  end
+
   describe "#file_review" do
     it "returns a saved and incomplete file review" do
       style_guide = build_style_guide

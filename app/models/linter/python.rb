@@ -1,6 +1,7 @@
-module StyleGuide
+module Linter
   class Python < Base
-    LANGUAGE = "python"
+    FILE_REGEXP = /.+\.py\z/
+    NAME = "python"
 
     private
 
@@ -8,7 +9,6 @@ module StyleGuide
       Resque.push(
         "python_review",
         {
-          class: "review.PythonReviewJob",
           args: [attributes],
         }
       )

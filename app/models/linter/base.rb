@@ -1,5 +1,9 @@
-module StyleGuide
+module Linter
   class Base
+    def self.lint?(filename)
+      self::FILE_REGEXP === filename
+    end
+
     def initialize(repo_config:, build:, repository_owner_name:)
       @repo_config = repo_config
       @build = build
@@ -41,16 +45,20 @@ module StyleGuide
       }
     end
 
-    def job_class
-      "#{language.capitalize}ReviewJob".constantize
-    end
-
     def enqueue_job(attributes)
       Resque.enqueue(job_class, attributes)
     end
 
     def language
-      self.class::LANGUAGE
+      self.class::NAME
+    end
+
+    def job_class
+      "#{linter_name.classify}ReviewJob".constantize
+    end
+
+    def linter_name
+      self.class::NAME
     end
 
     def name

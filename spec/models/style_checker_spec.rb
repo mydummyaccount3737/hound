@@ -234,7 +234,7 @@ describe StyleChecker do
     end
 
     context "with unsupported file type" do
-      it "uses unsupported style guide" do
+      it "uses unsupported linter" do
         commit_file = stub_commit_file(
           "fortran.f",
           %{PRINT *, "Hello World!"\nEND},
