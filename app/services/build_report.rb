@@ -22,7 +22,7 @@ class BuildReport
   attr_reader :build, :token, :pull_request
 
   def priority_violations
-    build.violations.take(Hound::MAX_COMMENTS.to_i)
+    build.violations.take(Hound::MAX_COMMENTS)
   end
 
   def track_subscribed_build_completed
