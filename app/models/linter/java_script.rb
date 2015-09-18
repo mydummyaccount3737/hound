@@ -1,4 +1,4 @@
-module StyleGuide
+module Linter
   class JavaScript < Base
     DEFAULT_CONFIG_FILENAME = "javascript.json"
 

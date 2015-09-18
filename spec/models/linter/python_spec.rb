@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe StyleGuide::Python do
+describe Linter::Python do
   describe "#file_review" do
     it "returns a saved, incomplete file review" do
       style_guide = build_style_guide

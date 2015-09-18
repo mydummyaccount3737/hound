@@ -1,4 +1,4 @@
-module StyleGuide
+module Linter
   class Haml < Base
     DEFAULT_CONFIG_FILENAME = "haml.yml"
 

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe StyleGuide::Go do
+describe Linter::Go do
   describe "#file_review" do
     it "returns a saved and incomplete file review" do
       style_guide = build_style_guide

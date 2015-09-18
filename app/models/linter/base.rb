@@ -1,4 +1,4 @@
-module StyleGuide
+module Linter
   class Base
     def initialize(repo_config:, build:, repository_owner_name:)
       @repo_config = repo_config

@@ -1,24 +1,24 @@
-module StyleGuide
+module Linter
   def self.for(filename)
     case filename
     when /.+\.rb\z/
-      StyleGuide::Ruby
+      Linter::Ruby
     when /.+\.coffee(\.js)?(\.erb)?\z/
-      StyleGuide::CoffeeScript
+      Linter::CoffeeScript
     when /.+\.js\z/
-      StyleGuide::JavaScript
+      Linter::JavaScript
     when /.+\.haml\z/
-      StyleGuide::Haml
+      Linter::Haml
     when /.+\.scss\z/
-      StyleGuide::Scss
+      Linter::Scss
     when /.+\.go\z/
-      StyleGuide::Go
+      Linter::Go
     when /.+\.py\z/
-      StyleGuide::Python
+      Linter::Python
     when /.+\.swift\z/
-      StyleGuide::Swift
+      Linter::Swift
     else
-      StyleGuide::Unsupported
+      Linter::Unsupported
     end
   end
 end

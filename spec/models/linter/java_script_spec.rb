@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe StyleGuide::JavaScript do
+describe Linter::JavaScript do
   include ConfigurationHelper
 
   describe "#file_review" do
@@ -78,7 +78,7 @@ describe StyleGuide::JavaScript do
         spy_on_file_read
         spy_on_jshintrb
         configuration_file_path = default_configuration_file(
-          StyleGuide::JavaScript
+          Linter::JavaScript
         )
         commit_file = build_js_file("$(myGlobal).hide();")
 
@@ -99,7 +99,7 @@ describe StyleGuide::JavaScript do
         spy_on_jshintrb
         commit_file = build_js_file("$(myGlobal).hide();")
         configuration_file_path = thoughtbot_configuration_file(
-          StyleGuide::JavaScript
+          Linter::JavaScript
         )
 
         violations_in(
@@ -200,7 +200,7 @@ describe StyleGuide::JavaScript do
     repo_config: default_repo_config,
     repository_owner_name: "not_thoughtbot"
   )
-    style_guide = StyleGuide::JavaScript.new(
+    style_guide = Linter::JavaScript.new(
       repo_config: repo_config,
       build: build(:build),
       repository_owner_name: repository_owner_name,
@@ -212,13 +212,13 @@ describe StyleGuide::JavaScript do
   end
 
   def default_configuration
-    config_file_path = default_configuration_file(StyleGuide::JavaScript)
+    config_file_path = default_configuration_file(Linter::JavaScript)
     config_file = File.read(config_file_path)
     JSON.parse(config_file)
   end
 
   def thoughtbot_configuration
-    config_file_path = thoughtbot_configuration_file(StyleGuide::JavaScript)
+    config_file_path = thoughtbot_configuration_file(Linter::JavaScript)
     config_file = File.read(config_file_path)
     JSON.parse(config_file)
   end

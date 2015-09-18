@@ -1,5 +1,5 @@
 # Returns empty set of violations.
-module StyleGuide
+module Linter
   class Unsupported < Base
     class CannotReviewUnsupportedFile < StandardError; end
 

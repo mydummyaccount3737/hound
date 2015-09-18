@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe StyleGuide::Haml do
+describe Linter::Haml do
   let(:filename) { "app/views/show.html.haml" }
 
   describe "#file_review" do
@@ -98,7 +98,7 @@ describe StyleGuide::Haml do
 
   def build_style_guide(config)
     repo_config = double("RepoConfig", enabled_for?: true, for: config)
-    StyleGuide::Haml.new(
+    Linter::Haml.new(
       repo_config: repo_config,
       build: build(:build),
       repository_owner_name: "ralph",

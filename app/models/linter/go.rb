@@ -1,4 +1,4 @@
-module StyleGuide
+module Linter
   class Go < Base
     LANGUAGE = "go"
     JOB_CLASS = GoReviewJob

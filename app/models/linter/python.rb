@@ -1,4 +1,4 @@
-module StyleGuide
+module Linter
   class Python < Base
     LANGUAGE = "python"
 

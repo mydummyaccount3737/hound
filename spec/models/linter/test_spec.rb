@@ -1,14 +1,14 @@
 require "spec_helper"
-require "app/models/style_guide/base"
+require "app/models/linter/base"
 
-module StyleGuide
+module Linter
   class Test < Base; end
 end
 
-describe StyleGuide::Test do
+describe Linter::Test do
   describe "#file_included?" do
     it "returns true" do
-      style_guide = StyleGuide::Test.new(
+      style_guide = Linter::Test.new(
         repo_config: double,
         build: double,
         repository_owner_name: "foo",

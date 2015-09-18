@@ -1,5 +1,5 @@
 # Determine CoffeeScript style guide violations per-line.
-module StyleGuide
+module Linter
   class CoffeeScript < Base
     DEFAULT_CONFIG_FILENAME = "coffeescript.json"
     ERB_TAGS = /<%.*%>/

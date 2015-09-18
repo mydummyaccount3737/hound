@@ -1,10 +1,10 @@
 require "rails_helper"
 
-describe StyleGuide::Markdown do
+describe Linter::Swift do
   describe "#file_review" do
-    it "returns a saved and incomplete file review" do
+    it "returns a saved, incomplete file review" do
       style_guide = build_style_guide
-      commit_file = build_commit_file(filename: "README.md")
+      commit_file = build_commit_file(filename: "a.swift")
 
       result = style_guide.file_review(commit_file)
 
@@ -13,15 +13,15 @@ describe StyleGuide::Markdown do
     end
 
     it "schedules a review job" do
+      allow(Resque).to receive(:enqueue)
       build = build(:build, commit_sha: "foo", pull_request_number: 123)
       style_guide = build_style_guide("config", build)
-      commit_file = build_commit_file(filename: "doc/SECURITY.md")
-      allow(Resque).to receive(:enqueue)
+      commit_file = build_commit_file(filename: "a.swift")
 
       style_guide.file_review(commit_file)
 
       expect(Resque).to have_received(:enqueue).with(
-        MarkdownReviewJob,
+        SwiftReviewJob,
         filename: commit_file.filename,
         commit_sha: build.commit_sha,
         pull_request_number: build.pull_request_number,

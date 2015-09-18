@@ -1,5 +1,5 @@
 # Determine Ruby style guide violations per-line.
-module StyleGuide
+module Linter
   class Ruby < Base
     DEFAULT_CONFIG_FILENAME = "ruby.yml"
 
