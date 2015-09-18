@@ -50,22 +50,9 @@ module StyleGuide
     end
 
     def config
-      default_config.merge(custom_config)
-    end
-
-    def custom_config
-      HamlLint::Configuration.new(repo_config.for(name))
-    end
-
-    def default_config
-      HamlLint::ConfigurationLoader.load_file(default_config_file)
-    end
-
-    def default_config_file
-      DefaultConfigFile.new(
-        DEFAULT_CONFIG_FILENAME,
-        repository_owner_name
-      ).path
+      # HamlLint::Configuration.new(repo_config.for(name))
+      HamlLint::ConfigurationLoader.default_configuration.
+        merge(repo_config.for(name))
     end
   end
 end

@@ -1,4 +1,6 @@
 class DefaultConfigFile
+  # remove?
+
   CONFIG_DIR = "config/style_guides"
   THOUGHTBOT_CONFIG_DIR = "config/style_guides/thoughtbot"
 

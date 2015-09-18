@@ -19,7 +19,28 @@ describe StyleGuide::Haml do
         it "returns violations" do
           content = "%div#container Hello"
 
-          expect(violations_in(content)).not_to be_empty
+          expect(violations_in(content)).to(
+            include "`%div#container` can be written as `#container` since `%div` is implicit"
+          )
+        end
+      end
+    end
+
+    context "with custom configuration" do
+      context "when explicit div is allowed" do
+        it "does not find violations" do
+          content = "%div#container Hello"
+          config = {
+            "linters" => {
+              "ImplicitDiv" => {
+                "enabled" => false
+              }
+            }
+          }
+
+          expect(violations_in(content, config)).not_to(
+            include "`%div#container` can be written as `#container` since `%div` is implicit"
+          )
         end
       end
     end
@@ -94,15 +115,6 @@ describe StyleGuide::Haml do
     style_guide = build_style_guide(config)
     style_guide.file_review(build_file(content)).violations.
       flat_map(&:messages)
-  end
-
-  def build_style_guide(config)
-    repo_config = double("RepoConfig", enabled_for?: true, for: config)
-    StyleGuide::Haml.new(
-      repo_config: repo_config,
-      build: build(:build),
-      repository_owner_name: "ralph",
-    )
   end
 
   def build_file(content)

@@ -2,6 +2,7 @@ module StyleGuide
   class JavaScript < Base
     def file_review(commit_file)
       FileReview.create!(filename: commit_file.filename) do |file_review|
+        debugger
         Jshintrb.lint(commit_file.content, config).compact.each do |violation|
           line = commit_file.line_at(violation["line"])
           file_review.build_violation(line, violation["reason"])
