@@ -1,6 +1,24 @@
 require "rails_helper"
 
 describe Linter::Ruby do
+  describe ".lint?" do
+    context "given a ruby file" do
+      it "returns true" do
+        result = Linter::Ruby.lint?("foo.rb")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a non-ruby file" do
+      it "returns false" do
+        result = Linter::Ruby.lint?("foo.js")
+
+        expect(result).to eq false
+      end
+    end
+  end
+
   describe "#file_review" do
     include ConfigurationHelper
 

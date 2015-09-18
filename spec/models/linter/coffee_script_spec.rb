@@ -3,6 +3,40 @@ require "rails_helper"
 describe Linter::CoffeeScript do
   include ConfigurationHelper
 
+  describe ".lint?" do
+    context "given a `coffee` file" do
+      it "returns true" do
+        result = Linter::CoffeeScript.lint?("foo.coffee")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a `coffee.erb` file" do
+      it "returns true" do
+        result = Linter::CoffeeScript.lint?("foo.coffee.erb")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a `coffee.js` file" do
+      it "returns true" do
+        result = Linter::CoffeeScript.lint?("foo.coffee.js")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a non-coffee file" do
+      it "returns false" do
+        result = Linter::CoffeeScript.lint?("foo.js")
+
+        expect(result).to eq false
+      end
+    end
+  end
+
   describe "enabled?" do
     context "with legacy coffee_script key" do
       it "is not enabled" do

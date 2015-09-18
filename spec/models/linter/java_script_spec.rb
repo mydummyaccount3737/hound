@@ -3,6 +3,24 @@ require "rails_helper"
 describe Linter::JavaScript do
   include ConfigurationHelper
 
+  describe ".lint?" do
+    context "given a `js` file" do
+      it "returns true" do
+        result = Linter::JavaScript.lint?("foo.js")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a non-js file" do
+      it "returns false" do
+        result = Linter::JavaScript.lint?("foo.rb")
+
+        expect(result).to eq false
+      end
+    end
+  end
+
   describe "#file_review" do
     it "returns a saved and completed file review" do
       style_guide = build_style_guide

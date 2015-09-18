@@ -3,6 +3,24 @@ require "rails_helper"
 describe Linter::Haml do
   let(:filename) { "app/views/show.html.haml" }
 
+  describe ".lint?" do
+    context "given a `haml` file" do
+      it "returns true" do
+        result = Linter::Haml.lint?("foo.haml")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a non-haml file" do
+      it "returns false" do
+        result = Linter::Haml.lint?("foo.rb")
+
+        expect(result).to eq false
+      end
+    end
+  end
+
   describe "#file_review" do
     it "returns a saved and completed file review" do
       style_guide = build_style_guide({})

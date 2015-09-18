@@ -2,6 +2,7 @@
 module Linter
   class Ruby < Base
     DEFAULT_CONFIG_FILENAME = "ruby.yml"
+    FILE_REGEXP = /.+\.rb\z/
 
     def file_review(commit_file)
       perform_file_review(commit_file)

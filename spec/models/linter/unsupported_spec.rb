@@ -1,6 +1,14 @@
 require "rails_helper"
 
 describe Linter::Unsupported do
+  describe ".lint?" do
+    it "returns true" do
+      result = Linter::Unsupported.lint?(double)
+
+      expect(result).to eq true
+    end
+  end
+
   describe "#file_review" do
     it "raises" do
       style_guide = Linter::Unsupported.new(

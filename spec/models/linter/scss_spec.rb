@@ -1,6 +1,24 @@
 require "rails_helper"
 
 describe Linter::Scss do
+  describe ".lint?" do
+    context "given a `scss` file" do
+      it "returns true" do
+        result = Linter::Scss.lint?("foo.scss")
+
+        expect(result).to eq true
+      end
+    end
+
+    context "given a non-scss file" do
+      it "returns false" do
+        result = Linter::Scss.lint?("foo.css")
+
+        expect(result).to eq false
+      end
+    end
+  end
+
   describe "#file_review" do
     it "returns a saved and incomplete file review" do
       style_guide = build_style_guide

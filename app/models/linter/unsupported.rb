@@ -3,6 +3,10 @@ module Linter
   class Unsupported < Base
     class CannotReviewUnsupportedFile < StandardError; end
 
+    def self.lint?(*)
+      true
+    end
+
     def file_review(commit_file)
       raise CannotReviewUnsupportedFile.new(commit_file.filename)
     end

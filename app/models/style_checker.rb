@@ -15,6 +15,18 @@ class StyleChecker
 
   private
 
+  LINTERS = [
+    Linter::CoffeeScript,
+    Linter::Go,
+    Linter::Haml,
+    Linter::JavaScript,
+    Linter::Python,
+    Linter::Ruby,
+    Linter::Scss,
+    Linter::Swift,
+    Linter::Unsupported,
+  ]
+
   def commit_files_to_check
     pull_request.commit_files.select do |file|
       linter = build_linter(file.filename)
@@ -23,7 +35,7 @@ class StyleChecker
   end
 
   def build_linter(filename)
-    linter_class = linter_class(filename)
+    linter_class = find_linter_class(filename)
     linters[linter_class] ||= linter_class.new(
       repo_config: config,
       build: build,
@@ -31,8 +43,8 @@ class StyleChecker
     )
   end
 
-  def linter_class(filename)
-    Linter.for(filename)
+  def find_linter_class(filename)
+    LINTERS.detect { |linter_class| linter_class.lint?(filename) }
   end
 
   def config

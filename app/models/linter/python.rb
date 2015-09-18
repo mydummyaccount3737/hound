@@ -1,5 +1,7 @@
 module Linter
   class Python < Base
+    FILE_REGEXP = /.+\.py\z/
+    JOB_CLASS = "python_review"
     LANGUAGE = "python"
 
     def file_review(commit_file)
@@ -9,7 +11,7 @@ module Linter
       )
 
       Resque.push(
-        "python_review",
+        JOB_CLASS,
         {
           class: "review.PythonReviewJob",
           args: [
