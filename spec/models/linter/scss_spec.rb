@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Linter::Scss do
   describe ".lint?" do
-    context "given a `scss` file" do
+    context "given an `scss` file" do
       it "returns true" do
         result = Linter::Scss.lint?("foo.scss")
 

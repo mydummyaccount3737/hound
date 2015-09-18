@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Linter::Ruby do
   describe ".lint?" do
-    context "given a ruby file" do
+    context "given a `ruby` file" do
       it "returns true" do
         result = Linter::Ruby.lint?("foo.rb")
 
