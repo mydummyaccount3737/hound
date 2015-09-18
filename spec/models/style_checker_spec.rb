@@ -8,15 +8,10 @@ describe StyleChecker do
       pull_request = stub_pull_request(
         commit_files: [stylish_commit_file, violated_commit_file],
       )
-      expected_violations = [
-        "Unnecessary spacing detected.",
-        "Space inside parentheses detected.",
-        "Trailing whitespace detected.",
-      ]
 
       violation_messages = pull_request_violations(pull_request)
 
-      expect(violation_messages).to eq expected_violations
+      expect(violation_messages).to include "Trailing whitespace detected."
     end
 
     it "only fetches content for supported files" do
@@ -41,14 +36,10 @@ describe StyleChecker do
         it "returns violations" do
           commit_file = stub_commit_file("ruby.rb", "puts 123    ")
           pull_request = stub_pull_request(commit_files: [commit_file])
-          expected_violations = [
-            "Unnecessary spacing detected.",
-            "Trailing whitespace detected.",
-          ]
 
           violation_messages = pull_request_violations(pull_request)
 
-          expect(violation_messages).to eq expected_violations
+          expect(violation_messages).to include "Trailing whitespace detected."
         end
       end
 
@@ -80,39 +71,47 @@ describe StyleChecker do
     end
 
     context "for a CoffeeScript file" do
-      it "is processed with a coffee.js extension" do
-        commit_file = stub_commit_file("test.coffee.js", "foo ->")
-        pull_request = stub_pull_request(commit_files: [commit_file])
-        allow(RepoConfig).to receive(:new).and_return(stub_repo_config)
-
-        violation_messages = pull_request_violations(pull_request)
-
-        expect(violation_messages).to eq ["Empty function"]
-      end
-
-      it "is processed with a coffee.erb extension" do
-        commit_file = stub_commit_file(
-          "test.coffee.erb",
-          "class strange_ClassNAME",
-        )
-        pull_request = stub_pull_request(commit_files: [commit_file])
-        allow(RepoConfig).to receive(:new).and_return(stub_repo_config)
-
-        violation_messages = pull_request_violations(pull_request)
-
-        expect(violation_messages).to eq [
-          "Class name should be UpperCamelCased",
-        ]
-      end
-
-      context "with style violations" do
-        it "returns violations" do
-          commit_file = stub_commit_file("test.coffee", "foo: ->")
+      context "with .coffee extension" do
+        it "finds violations" do
+          commit_file = stub_commit_file("test.coffee", "debugger")
           pull_request = stub_pull_request(commit_files: [commit_file])
 
           violation_messages = pull_request_violations(pull_request)
 
-          expect(violation_messages).to eq ["Empty function"]
+          expect(violation_messages).to include(
+            "Debugger statements will cause warnings",
+          )
+        end
+      end
+
+      context "with .coffee.js extension" do
+        it "finds violations" do
+          commit_file = stub_commit_file("test.coffee.js", "debugger")
+          pull_request = stub_pull_request(commit_files: [commit_file])
+          allow(RepoConfig).to receive(:new).and_return(stub_repo_config)
+
+          violation_messages = pull_request_violations(pull_request)
+
+          expect(violation_messages).to include(
+            "Debugger statements will cause warnings",
+          )
+        end
+      end
+
+      context "with .coffee.erb extension" do
+        it "finds violations" do
+          commit_file = stub_commit_file(
+            "test.coffee.erb",
+            "class strange_ClassNAME",
+          )
+          pull_request = stub_pull_request(commit_files: [commit_file])
+          allow(RepoConfig).to receive(:new).and_return(stub_repo_config)
+
+          violation_messages = pull_request_violations(pull_request)
+
+          expect(violation_messages).to include(
+            "Class names should be camel cased",
+          )
         end
       end
 
