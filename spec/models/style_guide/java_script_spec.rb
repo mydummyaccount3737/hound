@@ -172,7 +172,7 @@ describe StyleGuide::JavaScript do
       )
       commit_file2 = double(
         "CommitFile",
-        filename: "vendor/assets/javascripts/foo.js",
+        filename: "vendor/assets/javascripts/foo.js"
       )
 
       expect(style_guide.file_included?(commit_file1)).to be false
