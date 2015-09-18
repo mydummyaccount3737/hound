@@ -1,11 +1,7 @@
 module Linter
   class Base
     def self.lint?(filename)
-      if filename =~ self::FILE_REGEXP
-        true
-      else
-        false
-      end
+      self::FILE_REGEXP === filename
     end
 
     def initialize(repo_config:, build:, repository_owner_name:)
