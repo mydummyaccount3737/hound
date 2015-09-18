@@ -18,9 +18,9 @@ describe Linter::Unsupported do
       )
       commit_file = double("CommitFile", filename: "unsupported.f95")
 
-      expect { style_guide.file_review(commit_file) }.to raise_error(
-        Linter::Unsupported::CannotReviewUnsupportedFile
-      )
+      expect do
+        style_guide.file_review(commit_file)
+      end.to raise_error(Linter::Unsupported::CannotReviewUnsupportedFile)
     end
   end
 

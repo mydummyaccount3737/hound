@@ -96,7 +96,7 @@ describe Linter::JavaScript do
         spy_on_file_read
         spy_on_jshintrb
         configuration_file_path = default_configuration_file(
-          Linter::JavaScript
+          Linter::JavaScript,
         )
         commit_file = build_js_file("$(myGlobal).hide();")
 
@@ -117,7 +117,7 @@ describe Linter::JavaScript do
         spy_on_jshintrb
         commit_file = build_js_file("$(myGlobal).hide();")
         configuration_file_path = thoughtbot_configuration_file(
-          Linter::JavaScript
+          Linter::JavaScript,
         )
 
         violations_in(
@@ -218,7 +218,7 @@ describe Linter::JavaScript do
     repo_config: default_repo_config,
     repository_owner_name: "not_thoughtbot"
   )
-    style_guide = Linter::JavaScript.new(
+    Linter::JavaScript.new(
       repo_config: repo_config,
       build: build(:build),
       repository_owner_name: repository_owner_name,
