@@ -3,16 +3,18 @@ require "app/models/linter/base"
 
 module Linter
   class Test < Base
-    FILE_REGEXP = //
+    FILE_REGEXP = /.+\.yes\z/
   end
 end
 
 describe Linter::Base do
   describe ".lint?" do
     it "uses the FILE_REGEXP to determine the match" do
-      result = Linter::Test.lint?("foo.bar")
+      result1 = Linter::Test.lint?("foo.yes")
+      result2 = Linter::Test.lint?("foo.no")
 
-      expect(result).to eq true
+      expect(result1).to eq true
+      expect(result2).to eq false
     end
   end
 
