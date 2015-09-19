@@ -1,8 +1,7 @@
 module Linter
   class Go < Base
     FILE_REGEXP = /.+\.go\z/
-    JOB_CLASS = GoReviewJob
-    LANGUAGE = "go"
+    NAME = "go"
 
     def file_included?(commit_file)
       !vendored?(commit_file.filename)

@@ -46,11 +46,15 @@ module Linter
     end
 
     def language
-      self.class::LANGUAGE
+      self.class::NAME
     end
 
     def job_class
-      self.class::JOB_CLASS
+      "#{linter_name.classify}ReviewJob".constantize
+    end
+
+    def linter_name
+      self.class::NAME
     end
 
     def name

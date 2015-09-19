@@ -1,8 +1,7 @@
 module Linter
   class Python < Base
     FILE_REGEXP = /.+\.py\z/
-    JOB_CLASS = "python_review"
-    LANGUAGE = "python"
+    NAME = "python"
 
     def file_review(commit_file)
       file_review = FileReview.create!(
@@ -11,7 +10,7 @@ module Linter
       )
 
       Resque.push(
-        JOB_CLASS,
+        "python_review",
         {
           class: "review.PythonReviewJob",
           args: [
@@ -20,7 +19,7 @@ module Linter
             build.pull_request_number,
             commit_file.patch,
             commit_file.content,
-            repo_config.raw_for(LANGUAGE),
+            repo_config.raw_for(NAME),
           ],
         }
       )
