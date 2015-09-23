@@ -1,7 +1,5 @@
 module StyleGuide
   class Haml < Base
-    DEFAULT_CONFIG_FILENAME = "haml.yml"
-
     def file_review(commit_file)
       @commit_file = commit_file
 
