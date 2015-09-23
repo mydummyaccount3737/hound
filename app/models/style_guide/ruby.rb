@@ -1,8 +1,5 @@
-# Determine Ruby style guide violations per-line.
 module StyleGuide
   class Ruby < Base
-    DEFAULT_CONFIG_FILENAME = "ruby.yml"
-
     def file_review(commit_file)
       perform_file_review(commit_file)
     end
@@ -35,17 +32,7 @@ module StyleGuide
     end
 
     def config
-      @config ||= RuboCop::Config.new(merged_config, "")
-    end
-
-    def merged_config
-      RuboCop::ConfigLoader.merge(default_config, custom_config)
-    rescue TypeError
-      default_config
-    end
-
-    def default_config
-      RuboCop::ConfigLoader.configuration_from_file(default_config_file)
+      @config ||= RuboCop::ConfigLoader.merge_with_default(custom_config, "")
     end
 
     def custom_config
@@ -64,13 +51,6 @@ module StyleGuide
         Analytics.new(repository_owner_name).track_show_cop_names
         { debug: true }
       end
-    end
-
-    def default_config_file
-      DefaultConfigFile.new(
-        DEFAULT_CONFIG_FILENAME,
-        repository_owner_name
-      ).path
     end
   end
 end

@@ -18,211 +18,59 @@ describe StyleGuide::Ruby do
             "string interpolation or special symbols."
           code = 'name = "Jim Tom"'
           style_guide = build_style_guide(config)
-          file = build_file(code)
 
-          violations = style_guide.file_review(file).violations
+          violations = violations_with_config(code, config)
 
-          violation = violations.first
-          expect(violation.line_number).to eq 1
-          expect(violation.messages).to include message
+          expect(violations).to include message
         end
       end
     end
 
     context "with custom configuration" do
-      it "finds only one violation" do
+      it "finds a violation" do
         config = {
-          "StringLiterals" => {
+          "Style/StringLiterals" => {
             "EnforcedStyle" => "double_quotes"
           }
         }
+        style_guide = build_style_guide(config)
+        code = "name = 'Jim Tom'"
+        message = "Prefer double-quoted strings unless you need single quotes "\
+          "to avoid extra backslashes for escaping."
 
-        violations = violations_with_config(config)
+        violations = violations_with_config(code, config)
 
-        expect(violations).to eq ["Use the new Ruby 1.9 hash syntax."]
+        expect(violations).to include message
       end
 
       it "can use custom configuration to display rubocop cop names" do
         config = { "AllCops" => { "DisplayCopNames" => "true" } }
+        style_guide = build_style_guide(config)
+        code = 'name = "Jim Tom"'
+        message = "Style/StringLiterals: Prefer single-quoted strings when "\
+          "you don't need string interpolation or special symbols."
 
-        violations = violations_with_config(config)
+        violations = violations_with_config(code, config)
 
-        expect(violations).to eq [
-          "Style/HashSyntax: Use the new Ruby 1.9 hash syntax."
-        ]
+        expect(violations).to include message
       end
 
       context "with old-style syntax" do
-        it "has one violation" do
+        it "finds a violation" do
           config = {
             "StringLiterals" => {
-              "EnforcedStyle" => "single_quotes"
-            },
-            "HashSyntax" => {
-              "EnforcedStyle" => "hash_rockets"
-            },
+              "EnforcedStyle" => "double_quotes"
+            }
           }
+          style_guide = build_style_guide(config)
+          code = "name = 'Jim Tom'"
+          message = "Prefer double-quoted strings unless you need single quotes "\
+            "to avoid extra backslashes for escaping."
 
-          violations = violations_with_config(config)
+          violations = violations_with_config(code, config)
 
-          expect(violations).to eq [
-            "Prefer single-quoted strings when you don't need string "\
-            "interpolation or special symbols."
-          ]
+          expect(violations).to include message
         end
-      end
-
-      context "with using block" do
-        it "returns violations" do
-          violations = ["Pass `&:name` as an argument to `map` "\
-                        "instead of a block."]
-
-          expect(violations_in(<<-CODE)).to eq violations
-  users.map do |user|
-    user.name
-  end
-          CODE
-        end
-      end
-
-      context "with calls debugger" do
-        it "returns violations" do
-          violations = ["Remove debugger entry point `binding.pry`."]
-
-          expect(violations_in(<<-CODE)).to eq violations
-  binding.pry
-          CODE
-        end
-      end
-
-      context "with empty lines around block" do
-        it "returns violations" do
-          violations = ["Extra empty line detected at block body beginning.",
-                        "Extra empty line detected at block body end."]
-
-          expect(violations_in(<<-CODE)).to eq violations
-  block do |hoge|
-
-    hoge
-
-  end
-          CODE
-        end
-      end
-
-      context "with unnecessary space" do
-        it "returns violations" do
-          violations = ["Unnecessary spacing detected."]
-
-          expect(violations_in(<<-CODE)).to eq violations
-  hoge  = "https://github.com/bbatsov/rubocop"
-  hoge
-          CODE
-        end
-      end
-
-      def violations_with_config(config)
-        content = <<-TEXT.strip_heredoc
-          def test_method
-            { :foo => "hello world" }
-          end
-        TEXT
-
-        violations_in(content, config: config)
-      end
-    end
-
-    context "default configuration" do
-      it "uses a default configuration for rubocop" do
-        spy_on_rubocop_team
-        spy_on_rubocop_configuration_loader
-        config_file = default_configuration_file(StyleGuide::Ruby)
-        code = <<-CODE
-          private def foo
-            bar
-          end
-        CODE
-
-        violations_in(code, repository_owner_name: "not_thoughtbot")
-
-        expect(RuboCop::ConfigLoader).to(
-          have_received(:configuration_from_file).with(config_file)
-        )
-
-        expect(RuboCop::Cop::Team).to have_received(:new).
-          with(anything, default_configuration, anything)
-      end
-    end
-
-    context "thoughtbot organization PR" do
-      it "uses the thoughtbot configuration for rubocop" do
-        spy_on_rubocop_team
-        spy_on_rubocop_configuration_loader
-        config_file = thoughtbot_configuration_file(StyleGuide::Ruby)
-        code = <<-CODE
-          private def foo
-            bar
-          end
-        CODE
-
-        thoughtbot_violations_in(code)
-
-        expect(RuboCop::ConfigLoader).to(
-          have_received(:configuration_from_file).with(config_file)
-        )
-
-        expect(RuboCop::Cop::Team).to have_received(:new).
-          with(anything, thoughtbot_configuration, anything)
-      end
-
-      describe "when using reduce" do
-        it "returns no violations" do
-          expect(thoughtbot_violations_in(<<-CODE)).to eq []
-            users.reduce(0) do |sum, user|
-              sum + user.age
-            end
-          CODE
-        end
-      end
-
-      describe "when using inject" do
-        it "returns violations" do
-          violations = ["Prefer `reduce` over `inject`."]
-
-          expect(thoughtbot_violations_in(<<-CODE)).to eq violations
-            users.inject(0) do |_, user|
-              user.age
-            end
-          CODE
-        end
-      end
-
-      describe "when ommitting trailing commas" do
-        it "returns violations" do
-          violations = ["Put a comma after the last item of a multiline hash."]
-
-          expect(thoughtbot_violations_in(<<-CODE)).to eq violations
-            {
-              a: 1,
-              b: 2
-            }
-          CODE
-        end
-      end
-
-      describe "when trailing commas are present" do
-        it "returns no violations" do
-          expect(thoughtbot_violations_in(<<-CODE)).to eq []
-            {
-              a: 1,
-              b: 2,
-            }
-          CODE
-        end
-      end
-
-      def thoughtbot_violations_in(content)
-        violations_in(content, repository_owner_name: "thoughtbot")
       end
     end
 
@@ -234,9 +82,8 @@ describe StyleGuide::Ruby do
               "Exclude" => ["ignore.rb"]
             }
           }
-          repo_config = double("RepoConfig", for: config)
           file = double("CommitFile", filename: "ignore.rb")
-          style_guide = build_style_guide(repo_config: repo_config)
+          style_guide = build_style_guide(config)
 
           expect(style_guide.file_included?(file)).to eq false
         end
@@ -249,9 +96,8 @@ describe StyleGuide::Ruby do
               "Exclude" => []
             }
           }
-          repo_config = double("RepoConfig", for: config)
           file = double("CommitFile", filename: "app.rb")
-          style_guide = build_style_guide(repo_config: repo_config)
+          style_guide = build_style_guide(config)
 
           expect(style_guide.file_included?(file)).to eq true
         end
@@ -260,12 +106,12 @@ describe StyleGuide::Ruby do
 
     private
 
-    def violations_in(content, config: nil, repository_owner_name: "joe")
-      repo_config = build_repo_config(config)
-      style_guide = build_style_guide(
-        repo_config: repo_config,
-        repository_owner_name: repository_owner_name,
-      )
+    def violations_with_config(code, config)
+      violations_in(code, config: config)
+    end
+
+    def violations_in(content, config: nil)
+      style_guide = build_style_guide(config)
 
       style_guide.
         file_review(build_file(content)).
@@ -273,42 +119,8 @@ describe StyleGuide::Ruby do
         flat_map(&:messages)
     end
 
-    def build_style_guide(
-      repo_config: build_repo_config,
-      repository_owner_name: "not_thoughtbot"
-    )
-      StyleGuide::Ruby.new(
-        repo_config: repo_config,
-        build: build(:build),
-        repository_owner_name: repository_owner_name,
-      )
-    end
-
-    def build_repo_config(config = "")
-      double("RepoConfig", enabled_for?: true, for: config)
-    end
-
     def build_file(content)
       build_commit_file(filename: "app/models/user.rb", content: content)
-    end
-
-    def default_configuration
-      config_file = default_configuration_file(StyleGuide::Ruby)
-      RuboCop::ConfigLoader.configuration_from_file(config_file)
-    end
-
-    def thoughtbot_configuration
-      config_file = thoughtbot_configuration_file(StyleGuide::Ruby)
-      RuboCop::ConfigLoader.configuration_from_file(config_file)
-    end
-
-    def spy_on_rubocop_team
-      allow(RuboCop::Cop::Team).to receive(:new).and_call_original
-    end
-
-    def spy_on_rubocop_configuration_loader
-      allow(RuboCop::ConfigLoader).to receive(:configuration_from_file).
-        and_call_original
     end
   end
 end
