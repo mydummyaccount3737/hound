@@ -79,7 +79,7 @@ describe StyleChecker do
           violation_messages = pull_request_violations(pull_request)
 
           expect(violation_messages).to include(
-            "Debugger statements will cause warnings",
+            "Found debugging code",
           )
         end
       end
@@ -93,7 +93,7 @@ describe StyleChecker do
           violation_messages = pull_request_violations(pull_request)
 
           expect(violation_messages).to include(
-            "Debugger statements will cause warnings",
+            "Found debugging code",
           )
         end
       end
@@ -110,7 +110,7 @@ describe StyleChecker do
           violation_messages = pull_request_violations(pull_request)
 
           expect(violation_messages).to include(
-            "Class names should be camel cased",
+            "Class name should be UpperCamelCased",
           )
         end
       end
