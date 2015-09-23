@@ -55,7 +55,9 @@ describe StyleGuide::CoffeeScript do
 
         violation = violations.first
         expect(violation.line_number).to eq 1
-        expect(violation.messages).to include("Class names should be camel cased")
+        expect(violation.messages).to(
+          include("Class name should be UpperCamelCased")
+        )
       end
 
       it "removes the ERB tags from the file" do
