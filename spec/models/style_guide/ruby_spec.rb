@@ -611,25 +611,27 @@ describe StyleGuide::Ruby do
       describe "when using inject" do
         it "returns violations" do
           violations = ["Prefer `reduce` over `inject`."]
-
-          expect(thoughtbot_violations_in(<<-CODE.strip_heredoc)).to eq violations
+          code = <<-CODE.strip_heredoc
             users.inject(0) do |_, user|
               user.age
             end
           CODE
+
+          expect(thoughtbot_violations_in(code)).to eq violations
         end
       end
 
       describe "when ommitting trailing commas" do
         it "returns violations" do
           violations = ["Put a comma after the last item of a multiline hash."]
-
-          expect(thoughtbot_violations_in(<<-CODE.strip_heredoc)).to eq violations
+          code = <<-CODE.strip_heredoc
             {
               a: 1,
               b: 2
             }
           CODE
+
+          expect(thoughtbot_violations_in(code)).to eq violations
         end
       end
 
