@@ -16,7 +16,7 @@ describe StyleGuide::Ruby do
     context "with default configuration" do
       describe "for { and } as %r literal delimiters" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
             "test" =~ %r|test|
           CODE
         end
@@ -24,7 +24,7 @@ describe StyleGuide::Ruby do
 
       describe "for private prefix" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
             private def foo
               bar
             end
@@ -34,7 +34,7 @@ describe StyleGuide::Ruby do
 
       describe "for trailing commas" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
             _one = [
               1,
             ]
@@ -50,7 +50,7 @@ describe StyleGuide::Ruby do
 
       describe "for single line conditional" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
   if signed_in? then redirect_to dashboard_path end
 
   while signed_in? do something end
@@ -60,7 +60,7 @@ describe StyleGuide::Ruby do
 
       describe "for has_* method name" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
   def has_something?
     "something"
   end
@@ -72,7 +72,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Rename `is_something?` to `something?`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   def is_something?
     "something"
   end
@@ -82,7 +82,7 @@ describe StyleGuide::Ruby do
 
       describe "when using detect" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
   users.detect(&:active?)
           CODE
         end
@@ -92,7 +92,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Prefer `detect` over `find`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   users.find(&:active?)
           CODE
         end
@@ -100,7 +100,7 @@ describe StyleGuide::Ruby do
 
       describe "when using select" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
   users.select(&:active?)
           CODE
         end
@@ -110,7 +110,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Prefer `select` over `find_all`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   users.find_all(&:active?)
           CODE
         end
@@ -118,7 +118,7 @@ describe StyleGuide::Ruby do
 
       describe "when using map" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
   users.map(&:active?)
           CODE
         end
@@ -128,7 +128,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Prefer `map` over `collect`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   users.collect(&:active?)
           CODE
         end
@@ -136,7 +136,7 @@ describe StyleGuide::Ruby do
 
       describe "when using inject" do
         it "returns no violations" do
-          expect(violations_in(<<-CODE)).to eq []
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq []
             users.inject(0) do |sum, user|
               sum + user.age
             end
@@ -148,7 +148,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Prefer `inject` over `reduce`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   users.reduce(0) do |_, user|
     user.age
   end
@@ -176,7 +176,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Space inside parentheses detected."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   logger( "test")
           CODE
         end
@@ -186,7 +186,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Space inside parentheses detected."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   logger("test" )
           CODE
         end
@@ -196,7 +196,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Space inside square brackets detected."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   a["test" ]
           CODE
         end
@@ -206,7 +206,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Inconsistent indentation detected."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   def one
     1
   end
@@ -225,7 +225,7 @@ describe StyleGuide::Ruby do
           violations = ["Place the . on the previous line, together with the "\
                         "method call receiver."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   one
     .two
           CODE
@@ -239,7 +239,7 @@ describe StyleGuide::Ruby do
             "Tab detected."
           ]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   def test
   \tlogger "test"
   end
@@ -251,7 +251,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Use empty lines between method definitions."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   def one
     1
   end
@@ -265,7 +265,7 @@ describe StyleGuide::Ruby do
       context "for operator without surrounding spaces" do
         it "returns violations" do
           violations = ["Surrounding space missing for operator `+`."]
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   1+1
           CODE
         end
@@ -275,7 +275,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Space missing after comma."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   logger :one,:two
           CODE
         end
@@ -287,7 +287,7 @@ describe StyleGuide::Ruby do
                         "Space inside { missing.",
                         "Space inside } missing."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   {one:1}
           CODE
         end
@@ -298,7 +298,7 @@ describe StyleGuide::Ruby do
           violations = ["Do not use semicolons to terminate expressions.",
                         "Space missing after semicolon."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   logger :one;logger :two
           CODE
         end
@@ -308,7 +308,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Surrounding space missing for operator `=`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   a ={ one: 1 }
   a
           CODE
@@ -319,7 +319,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Space inside { missing."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   a = {one: 1 }
   a
           CODE
@@ -330,7 +330,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Space inside } missing."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   a = { one: 1}
   a
           CODE
@@ -339,7 +339,7 @@ describe StyleGuide::Ruby do
 
       context "for method definitions with optional named arguments" do
         it "does not return violations" do
-          expect(violations_in(<<-CODE)).to be_empty
+          expect(violations_in(<<-CODE.strip_heredoc)).to be_empty
   def register_email(email:)
     register(email)
   end
@@ -500,7 +500,7 @@ describe StyleGuide::Ruby do
           violations = ["Pass `&:name` as an argument to `map` "\
                         "instead of a block."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   users.map do |user|
     user.name
   end
@@ -512,7 +512,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Remove debugger entry point `binding.pry`."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   binding.pry
           CODE
         end
@@ -523,7 +523,7 @@ describe StyleGuide::Ruby do
           violations = ["Extra empty line detected at block body beginning.",
                         "Extra empty line detected at block body end."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   block do |hoge|
 
     hoge
@@ -537,7 +537,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Unnecessary spacing detected."]
 
-          expect(violations_in(<<-CODE)).to eq violations
+          expect(violations_in(<<-CODE.strip_heredoc)).to eq violations
   hoge  = "https://github.com/bbatsov/rubocop"
   hoge
           CODE
@@ -560,7 +560,7 @@ describe StyleGuide::Ruby do
         spy_on_rubocop_team
         spy_on_rubocop_configuration_loader
         config_file = default_configuration_file(StyleGuide::Ruby)
-        code = <<-CODE
+        code = <<-CODE.strip_heredoc
           private def foo
             bar
           end
@@ -582,7 +582,7 @@ describe StyleGuide::Ruby do
         spy_on_rubocop_team
         spy_on_rubocop_configuration_loader
         config_file = thoughtbot_configuration_file(StyleGuide::Ruby)
-        code = <<-CODE
+        code = <<-CODE.strip_heredoc
           private def foo
             bar
           end
@@ -600,7 +600,7 @@ describe StyleGuide::Ruby do
 
       describe "when using reduce" do
         it "returns no violations" do
-          expect(thoughtbot_violations_in(<<-CODE)).to eq []
+          expect(thoughtbot_violations_in(<<-CODE.strip_heredoc)).to eq []
             users.reduce(0) do |sum, user|
               sum + user.age
             end
@@ -612,7 +612,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Prefer `reduce` over `inject`."]
 
-          expect(thoughtbot_violations_in(<<-CODE)).to eq violations
+          expect(thoughtbot_violations_in(<<-CODE.strip_heredoc)).to eq violations
             users.inject(0) do |_, user|
               user.age
             end
@@ -624,7 +624,7 @@ describe StyleGuide::Ruby do
         it "returns violations" do
           violations = ["Put a comma after the last item of a multiline hash."]
 
-          expect(thoughtbot_violations_in(<<-CODE)).to eq violations
+          expect(thoughtbot_violations_in(<<-CODE.strip_heredoc)).to eq violations
             {
               a: 1,
               b: 2
@@ -635,7 +635,7 @@ describe StyleGuide::Ruby do
 
       describe "when trailing commas are present" do
         it "returns no violations" do
-          expect(thoughtbot_violations_in(<<-CODE)).to eq []
+          expect(thoughtbot_violations_in(<<-CODE.strip_heredoc)).to eq []
             {
               a: 1,
               b: 2,
