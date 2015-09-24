@@ -17,7 +17,6 @@ describe StyleGuide::Ruby do
           message = "Prefer single-quoted strings when you don't need " +
             "string interpolation or special symbols."
           code = 'name = "Jim Tom"'
-          style_guide = build_style_guide(config)
 
           violations = violations_with_config(code, config)
 
@@ -33,7 +32,6 @@ describe StyleGuide::Ruby do
             "EnforcedStyle" => "double_quotes"
           }
         }
-        style_guide = build_style_guide(config)
         code = "name = 'Jim Tom'"
         message = "Prefer double-quoted strings unless you need single quotes "\
           "to avoid extra backslashes for escaping."
@@ -45,7 +43,6 @@ describe StyleGuide::Ruby do
 
       it "can use custom configuration to display rubocop cop names" do
         config = { "AllCops" => { "DisplayCopNames" => "true" } }
-        style_guide = build_style_guide(config)
         code = 'name = "Jim Tom"'
         message = "Style/StringLiterals: Prefer single-quoted strings when "\
           "you don't need string interpolation or special symbols."
@@ -62,7 +59,6 @@ describe StyleGuide::Ruby do
               "EnforcedStyle" => "double_quotes"
             }
           }
-          style_guide = build_style_guide(config)
           code = "name = 'Jim Tom'"
           message = "Prefer double-quoted strings unless you need single quotes "\
             "to avoid extra backslashes for escaping."
