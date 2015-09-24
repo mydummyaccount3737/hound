@@ -29,7 +29,7 @@ describe StyleGuide::CoffeeScript do
 
     context "with custom configuration" do
       context "when line length is configured" do
-        it "does not find line lenght violation" do
+        it "does not find line length violation" do
           config = {
             "max_line_length": {
               "value": 81
