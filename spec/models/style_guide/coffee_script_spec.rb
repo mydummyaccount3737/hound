@@ -22,7 +22,9 @@ describe StyleGuide::CoffeeScript do
 
           violation = violations.first
           expect(violation.line_number).to eq 1
-          expect(violation.messages).to include("Line exceeds maximum allowed length")
+          expect(violation.messages).to(
+            include("Line exceeds maximum allowed length")
+          )
         end
       end
     end
