@@ -114,10 +114,6 @@ Style/CollectionMethods:
     find: detect
     find_all: select
     reduce: inject
-Style/CommandLiteral:
-  Description: Use `` or %x around command literals.
-  StyleGuide: https://github.com/bbatsov/ruby-style-guide#percent-x
-  Enabled: false
 Style/CommentAnnotation:
   Description: Checks formatting of special comments (TODO, FIXME, OPTIMIZE, HACK,
     REVIEW).
