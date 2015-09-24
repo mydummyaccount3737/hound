@@ -60,8 +60,8 @@ describe StyleGuide::Ruby do
             }
           }
           code = "name = 'Jim Tom'"
-          message = "Prefer double-quoted strings unless you need single quotes "\
-            "to avoid extra backslashes for escaping."
+          message = "Prefer double-quoted strings unless you need single "\
+            "quotes to avoid extra backslashes for escaping."
 
           violations = violations_with_config(code, config)
 

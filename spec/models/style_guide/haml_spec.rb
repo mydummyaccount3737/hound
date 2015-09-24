@@ -18,10 +18,10 @@ describe StyleGuide::Haml do
       context "with an implicit %div violation" do
         it "returns violations" do
           content = "%div#container Hello"
+          message = "`%div#container` can be written as `#container` since "\
+            "`%div` is implicit"
 
-          expect(violations_in(content)).to(
-            include "`%div#container` can be written as `#container` since `%div` is implicit"
-          )
+          expect(violations_in(content)).to include message
         end
       end
     end
@@ -37,10 +37,10 @@ describe StyleGuide::Haml do
               }
             }
           }
+          message = "`%div#container` can be written as `#container` since "\
+            "`%div` is implicit"
 
-          expect(violations_in(content, config)).not_to(
-            include "`%div#container` can be written as `#container` since `%div` is implicit"
-          )
+          expect(violations_in(content, config)).not_to include message
         end
       end
 
@@ -55,9 +55,10 @@ describe StyleGuide::Haml do
             }
           }
 
-          expect(violations_in(content, config)).to(
-            include "`%div#container` can be written as `#container` since `%div` is implicit"
-          )
+          message = "`%div#container` can be written as `#container` since "\
+            "`%div` is implicit"
+
+          expect(violations_in(content, config)).to include message
         end
       end
     end
