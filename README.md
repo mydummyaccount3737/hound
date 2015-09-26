@@ -3,6 +3,8 @@
 [![Build Status](https://circleci.com/gh/thoughtbot/hound/tree/master.svg?style=svg)](https://circleci.com/gh/thoughtbot/hound/tree/master)
 [![Slack](http://slack.houndci.com/badge.svg)](http://slack.houndci.com)
 
+Travis. 
+
 This codebase is the Rails app for
 [Hound](http://houndci.com),
 a hosted service
